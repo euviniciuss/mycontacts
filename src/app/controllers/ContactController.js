@@ -36,6 +36,11 @@ class ContactController {
 
     const contact = await ContactsRepository.create(name, email, phone, category_id);
 
+    if (!res.headersSent) {
+      res.setHeader('Content-Type', 'application/json');
+      return res.json(contact);
+    }
+
     res.json(contact);
   }
 
