@@ -50,6 +50,20 @@ class CategoryController {
 
     res.status(200).json(category);
   }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const categoryId = await CategoriesRepository.findById(id);
+
+    if (!categoryId) {
+      return res.status(404).json({ error: 'User not found!' });
+    }
+
+    await CategoriesRepository.delete(id);
+
+    res.sendStatus(204);
+  }
 }
 
 module.exports = new CategoryController();
