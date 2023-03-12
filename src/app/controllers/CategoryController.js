@@ -31,6 +31,25 @@ class CategoryController {
 
     res.json(category);
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const categoryId = await CategoriesRepository.findById(id);
+
+    if (!categoryId) {
+      return res.status(404).json({ error: 'User not found!' });
+    }
+
+    if (!name) {
+      return res.status(400).json({ error: 'Fill in all requested data!' });
+    }
+
+    const category = await CategoriesRepository.update(id, { name });
+
+    res.status(200).json(category);
+  }
 }
 
 module.exports = new CategoryController();
